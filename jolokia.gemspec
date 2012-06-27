@@ -14,4 +14,6 @@ Gem::Specification.new do |gem|
   gem.name          = "jolokia"
   gem.require_paths = ["lib"]
   gem.version       = Jolokia::VERSION
+
+  gem.add_dependency 'virtus', '~> 0.5.1'
 end
