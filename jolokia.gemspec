@@ -18,4 +18,5 @@ Gem::Specification.new do |gem|
   gem.add_dependency 'virtus', '~> 0.5.1'
   gem.add_dependency 'faraday', '~> 0.8.1'
   gem.add_dependency 'oj', '~> 1.2.11'
+  gem.add_dependency 'recursive-open-struct'
 end
