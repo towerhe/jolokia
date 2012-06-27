@@ -16,4 +16,5 @@ Gem::Specification.new do |gem|
   gem.version       = Jolokia::VERSION
 
   gem.add_dependency 'virtus', '~> 0.5.1'
+  gem.add_dependency 'faraday', '~> 0.8.1'
 end
