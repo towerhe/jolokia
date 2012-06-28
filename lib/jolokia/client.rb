@@ -2,7 +2,6 @@ require 'virtus'
 require 'faraday'
 require 'faraday_middleware'
 require 'oj'
-require 'recursive_open_struct'
 
 module Jolokia
   class Client
@@ -13,7 +12,7 @@ module Jolokia
     def request(opts)
       resp = connection.post '', opts
 
-      RecursiveOpenStruct.new resp.body
+      resp.body
     end
 
     def connection
