@@ -5,6 +5,7 @@ group :test do
   gem 'fivemat'
   gem 'webmock'
   gem 'pry'
+  gem 'oj'
 end
 
 # Specify your gem's dependencies in jolokia.gemspec

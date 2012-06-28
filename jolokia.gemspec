@@ -15,8 +15,6 @@ Gem::Specification.new do |gem|
   gem.require_paths = ['lib']
   gem.version       = Jolokia::VERSION
 
-  gem.add_dependency 'virtus', '~> 0.5.1'
   gem.add_dependency 'faraday', '~> 0.8.1'
   gem.add_dependency 'faraday_middleware', '~> 0.8.8'
-  gem.add_dependency 'oj', '~> 1.2.11'
 end
