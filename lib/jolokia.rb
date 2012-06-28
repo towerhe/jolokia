@@ -1,5 +1,10 @@
-require "jolokia/version"
+require 'jolokia/version'
+require 'jolokia/client'
 
 module Jolokia
-  # Your code goes here...
+  class << self
+    def new(opts = {})
+      Jolokia::Client.new(opts)
+    end
+  end
 end
