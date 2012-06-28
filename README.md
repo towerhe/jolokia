@@ -37,7 +37,6 @@ response = jolokia.request(:post, type: 'read',
 pp response
 
 # =>
-
   {"timestamp"=>1340783789,
    "status"=>200,
    "request"=>
@@ -53,9 +52,9 @@ pp response
 
 ### API
 
-`get_attribute(mbean, attribute, path = nil)`
-`set_attribute(mbean, attribute, value, path = nil)`
-`execute(mbean, operations, args)`
+* `get_attribute(mbean, attribute, path = nil)`
+* `set_attribute(mbean, attribute, value, path = nil)`
+* `execute(mbean, operations, args)`
 
 ## Contributing
 
