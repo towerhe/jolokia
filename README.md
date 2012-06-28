@@ -1,6 +1,6 @@
 # Jolokia
 
-The Jolokia Ruby library provides a ruby API to the to the Jolokia agent.
+The Jolokia Ruby library provides a ruby API to the to the [Jolokia](http://www.jolokia.org) Agent.
 
 ## Installation
 
@@ -19,8 +19,8 @@ Or install it yourself as:
 ## Usage
 
 First of all, you need to create an instance of Jolokia::Client to
-comunicate with the remote Jolokia Agent. You just need
-to pass the url of the Jolokia Agent to the constructor for creating the
+comunicate with the remote [Jolokia](http://www.jolokia.org) Agent. You just need
+to pass the url of the [Jolokia](http://www.jolokia.org) Agent to the constructor for creating the
 client.
 
 ```ruby
