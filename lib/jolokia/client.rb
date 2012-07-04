@@ -14,7 +14,7 @@ module Jolokia
       options = { 'type' => 'read', 'mbean' => mbean, 'attribute' => attribute }
       options['path'] = path if path
 
-      request(:post, options)
+      request(:post, options)['value']
     end
 
     def set_attribute(mbean, attribute, value, path = nil)
