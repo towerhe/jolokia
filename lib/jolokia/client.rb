@@ -1,6 +1,5 @@
 require 'faraday'
 require 'faraday_middleware'
-require 'oj'
 
 module Jolokia
   class Client
