@@ -4,7 +4,7 @@ Bundler.setup(:default, :test)
 
 require 'jolokia'
 
-require 'webmock/rspec'
+require 'json_expressions/rspec'
 require 'pry'
 
 RSpec.configure do |c|

@@ -1,9 +1,9 @@
 source 'http://ruby.taobao.org'
 
 group :test do
+  gem 'json_expressions'
   gem 'rspec'
   gem 'fivemat'
-  gem 'webmock'
   gem 'pry'
   gem 'oj'
 end
