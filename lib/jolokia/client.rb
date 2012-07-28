@@ -34,7 +34,10 @@ module Jolokia
         'mbean' => mbean,
         'operation' => operation
       }
-      options['arguments'] = args if args
+
+      if args
+        options['arguments'] = args.is_a?(Array) ? args : [args]
+      end
 
       request(:post, options)
     end
