@@ -45,6 +45,10 @@ module Jolokia
     def request(method, opts)
       resp = connection.send(method, '', opts)
 
+      if resp.body['status'] == 500
+        raise RemoteError.new(500, resp.body['error'], resp.body['stacktrace'])
+      end
+
       resp.body
     end
 
