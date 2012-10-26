@@ -8,11 +8,13 @@ describe Jolokia::Client do
     client.stub(:connection) do
       @conn = Faraday.new do |b|
         b.request :json
-        b.request :json
+        b.response :json
         b.adapter :test do |stub|
           stub.post('/') do |env|
             posted_as = env[:request_headers]['Content-Type']
-            [200, {'Content-Type' => posted_as}, env[:body]]
+            body = Oj.load(env[:body]).merge('status' => 200)
+
+            [200, {'Content-Type' => posted_as }, Oj.dump(body)]
           end
         end
       end
@@ -35,7 +37,8 @@ describe Jolokia::Client do
         {
           'type' => 'read',
           'mbean' => 'java.lang:type=Memory',
-          'attribute' => attribute
+          'attribute' => attribute,
+          'status' => 200
         }
       end
 
@@ -58,7 +61,8 @@ describe Jolokia::Client do
           'type' => 'write',
           'mbean' => 'java.lang:type=ClassLoading',
           'attribute' => 'Verbose',
-          'value' => true
+          'value' => true,
+          'status' => 200
         }
       end
 
@@ -71,7 +75,8 @@ describe Jolokia::Client do
           {
             'type' => 'exec',
             'mbean' => 'java.lang:type=Memory',
-            'operation' => 'gc'
+            'operation' => 'gc',
+            'status' => 200
           }
         end
 
@@ -84,7 +89,8 @@ describe Jolokia::Client do
             'type' => 'exec',
             'mbean' => 'java.lang:type=Threading',
             'operation' => 'dumpAllThreads',
-            'arguments' => [true, true]
+            'arguments' => [true, true],
+            'status' => 200
           }
         end
 
