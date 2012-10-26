@@ -28,19 +28,28 @@ module Jolokia
       request(:post, options)
     end
 
-    def execute(mbean, operation, args)
+    def execute(mbean, operation, args = nil)
       options = {
         'type' => 'exec',
         'mbean' => mbean,
         'operation' => operation
       }
-      options['arguments'] = args if args
+
+      if args
+        options['arguments'] = args.is_a?(Array) ? args : [args]
+      end
 
       request(:post, options)
     end
 
     def request(method, opts)
       resp = connection.send(method, '', opts)
+
+      if resp.body['status'] != 200
+        raise RemoteError.new(resp.body['status'],
+                              resp.body['error'],
+                              resp.body['stacktrace'])
+      end
 
       resp.body
     end

@@ -1,1 +1,0 @@
-{"timestamp":1340873612,"status":200,"request":{"operation":"setLoggerLevel","mbean":"java.util.logging:type=Logging","arguments":["global","INFO"],"type":"exec"},"value":null}

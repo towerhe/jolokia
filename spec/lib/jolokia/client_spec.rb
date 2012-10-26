@@ -2,36 +2,34 @@ require 'spec_helper'
 
 describe Jolokia::Client do
   let(:url) { 'http://localhost:8080/jolokia' }
+  let(:client) { Jolokia::Client.new(url: url) }
 
-  it 'creates an instance of Jolokia::Client' do
-    jolokia = Jolokia::Client.new(url: url)
+  before do
+    client.stub(:connection) do
+      @conn = Faraday.new do |b|
+        b.request :json
+        b.response :json
+        b.adapter :test do |stub|
+          stub.post('/') do |env|
+            posted_as = env[:request_headers]['Content-Type']
+            body = Oj.load(env[:body]).merge('status' => 200)
 
-    jolokia.should be
-    jolokia.url.should == url
-  end 
+            [200, {'Content-Type' => posted_as }, Oj.dump(body)]
+          end
+        end
+      end
+    end
+  end
 
   describe '#request' do
     shared_examples 'Request executed successfully' do
-      it 'responds with status 200' do
-        response['status'].should == 200
+      it 'passes valid params' do
+        response.should match_json_expression(options)
       end
     end
 
-    let(:jolokia) { Jolokia::Client.new(url: url) }
-
     let(:response) do
-      jolokia.request :post, options
-    end
-
-    let(:response_body) do
-      File.new(File.join(File.dirname(__FILE__),
-                         '../../responses', fake_response_body))
-    end
-
-    before do
-      stub_request(:post, url).
-        with(body: Oj.dump(options)).to_return(body: response_body,
-                                               status: 200)
+      client.request :post, options
     end
 
     context 'when reading attributes' do
@@ -39,48 +37,21 @@ describe Jolokia::Client do
         {
           'type' => 'read',
           'mbean' => 'java.lang:type=Memory',
-          'attribute' => attribute 
+          'attribute' => attribute,
+          'status' => 200
         }
       end
 
       context 'only a single attribute' do
         let(:attribute) { 'HeapMemoryUsage' }
-        let(:fake_response_body) { 'heap_memory_usage.json' }
 
         it_should_behave_like 'Request executed successfully'
-
-        it 'responds the heap memory usage' do
-          response['value'].should == {
-            'max' => 477233152,
-            'committed' => 190382080,
-            'init' => 134217728,
-            'used' => 116851464
-          }
-        end
       end
 
       context 'multi-attributes' do
         let(:attribute) { ['HeapMemoryUsage', 'NonHeapMemoryUsage'] }
-        let(:fake_response_body) { 'heap_memory_usage_and_none.json' }
 
         it_should_behave_like 'Request executed successfully'
-
-        it 'responds HeapMemoryUsage and NonHeapMemoryUsage' do
-          response['value'].should == {
-            'NonHeapMemoryUsage' => {
-              'max' => 184549376,
-              'committed' => 88866816,
-              'init' => 24313856,
-              'used' => 88016336
-            },
-            'HeapMemoryUsage' => {
-              'max' => 477233152,
-              'committed' => 190447616,
-              'init' => 134217728,
-              'used' => 104668904
-            }
-          }
-        end
       end
     end
 
@@ -90,10 +61,10 @@ describe Jolokia::Client do
           'type' => 'write',
           'mbean' => 'java.lang:type=ClassLoading',
           'attribute' => 'Verbose',
-          'value' => true
+          'value' => true,
+          'status' => 200
         }
       end
-      let(:fake_response_body) { 'set_class_loading_verbose.json' }
 
       it_should_behave_like 'Request executed successfully'
     end
@@ -104,10 +75,10 @@ describe Jolokia::Client do
           {
             'type' => 'exec',
             'mbean' => 'java.lang:type=Memory',
-            'operation' => 'gc'
+            'operation' => 'gc',
+            'status' => 200
           }
         end
-        let(:fake_response_body) { 'exec_memory_gc.json' }
 
         it_should_behave_like 'Request executed successfully'
       end
@@ -118,10 +89,10 @@ describe Jolokia::Client do
             'type' => 'exec',
             'mbean' => 'java.lang:type=Threading',
             'operation' => 'dumpAllThreads',
-            'arguments' => [true, true]
+            'arguments' => [true, true],
+            'status' => 200
           }
         end
-        let(:fake_response_body) { 'exec_dump_all_threads.json' }
 
         it_should_behave_like 'Request executed successfully'
       end
