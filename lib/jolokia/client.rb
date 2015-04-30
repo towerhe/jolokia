@@ -4,9 +4,13 @@ require 'faraday_middleware'
 module Jolokia
   class Client
     attr_accessor :url
+    attr_accessor :username
+    attr_accessor :password
 
     def initialize(opts = {})
       @url = opts[:url]
+      @username = opts[:username]
+      @password = opts[:password]
     end
 
     def get_attribute(mbean, attribute, path = nil)
@@ -61,6 +65,9 @@ module Jolokia
         f.request  :json
         f.response :json
         f.adapter  :net_http
+        if ( !@username.nil? && !@password.nil? )
+          f.basic_auth @username, @password
+        end
       end
     end
   end
