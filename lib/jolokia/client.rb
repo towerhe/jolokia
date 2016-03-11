@@ -49,12 +49,17 @@ module Jolokia
     def request(method, opts)
       resp = connection.send(method, '', opts)
 
+      # HTTP level error - got back non-200 response code in headers
+      if !resp.success?
+        raise RemoteError.new(resp.status, resp.body, '')
+      end
+      # JMX level error - got back non-200 response code from Jolokia
       if resp.body['status'] != 200
         raise RemoteError.new(resp.body['status'],
                               resp.body['error'],
                               resp.body['stacktrace'])
       end
-
+      
       resp.body
     end
 
