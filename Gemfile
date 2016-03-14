@@ -6,6 +6,7 @@ group :test do
   gem 'fivemat'
   gem 'pry'
   gem 'oj'
+  gem 'rake'
 end
 
 # Specify your gem's dependencies in jolokia.gemspec
