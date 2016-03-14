@@ -5,7 +5,6 @@ group :test do
   gem 'rspec'
   gem 'fivemat'
   gem 'pry'
-  gem 'oj'
   gem 'rake'
 end
 
