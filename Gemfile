@@ -1,4 +1,4 @@
-source 'http://ruby.taobao.org'
+source 'https://rubygems.org/'
 
 group :test do
   gem 'json_expressions'

@@ -24,7 +24,7 @@ describe Jolokia::Client do
   describe '#request' do
     shared_examples 'Request executed successfully' do
       it 'passes valid params' do
-        response.should match_json_expression(options)
+        expect(response).to match_json_expression(options)
       end
     end
 
