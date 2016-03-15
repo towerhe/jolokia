@@ -8,5 +8,9 @@ group :test do
   gem 'rake'
 end
 
+group :development, :test do
+  gem 'rubocop', require: false
+end
+
 # Specify your gem's dependencies in jolokia.gemspec
 gemspec
