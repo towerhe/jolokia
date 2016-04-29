@@ -6,8 +6,9 @@ require 'jolokia'
 
 require 'json_expressions/rspec'
 require 'pry'
-require 'oj'
 
-RSpec.configure do |c|
-  c.mock_with :rspec
+RSpec.configure do |config|
+  config.mock_with :rspec do |c|
+    c.syntax = [:should, :expect]
+  end
 end

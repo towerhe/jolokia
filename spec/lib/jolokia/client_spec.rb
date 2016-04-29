@@ -12,9 +12,9 @@ describe Jolokia::Client do
         b.adapter :test do |stub|
           stub.post('/') do |env|
             posted_as = env[:request_headers]['Content-Type']
-            body = Oj.load(env[:body]).merge('status' => 200)
+            body = JSON.parse(env[:body]).merge('status' => 200)
 
-            [200, {'Content-Type' => posted_as }, Oj.dump(body)]
+            [200, {'Content-Type' => posted_as }, JSON.generate(body)]
           end
         end
       end
@@ -24,7 +24,7 @@ describe Jolokia::Client do
   describe '#request' do
     shared_examples 'Request executed successfully' do
       it 'passes valid params' do
-        response.should match_json_expression(options)
+        expect(response).to match_json_expression(options)
       end
     end
 
